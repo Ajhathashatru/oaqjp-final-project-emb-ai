@@ -5,20 +5,20 @@ app = Flask("Emotion Detector")
 
 @app.route("/emotionDetector")
 def emotion_analyzer():
-    """
-    Retrieve the text from request argument, run emotion detection, 
-    and format the response string for rendering.
-    """
-
     text_to_analyze = request.args.get('textToAnalyze')
     response = emotion_detector(text_to_analyze)
+    
+    dominant_emotion = response['dominant_emotion']
+    
+    if dominant_emotion is None:
+        return "Invalid text! Please try again!"
+        
     anger = response['anger']
     disgust = response['disgust']
     fear = response['fear']
     joy = response['joy']
     sadness = response['sadness']
-    dominant_emotion = response['dominant_emotion']
-
+    
     return (
         f"For the given statement, the system response is "
         f"'anger': {anger}, 'disgust': {disgust}, 'fear': {fear}, "
